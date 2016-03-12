@@ -1,4 +1,4 @@
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,9 +26,10 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 
-import it.jaschke.test.data.AlexandriaContract;
-import it.jaschke.test.services.BookService;
-import it.jaschke.test.services.DownloadImage;
+import com.ntippa.android.BarcodeCaptureActivity;
+import com.ntippa.android.myApp3.data.AlexandriaContract;
+import com.ntippa.android.myApp3.services.BookService;
+import com.ntippa.android.myApp3.services.DownloadImage;
 
 
 public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

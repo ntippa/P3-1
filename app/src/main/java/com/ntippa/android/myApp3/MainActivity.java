@@ -1,4 +1,4 @@
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import it.jaschke.test.api.Callback;
+import com.ntippa.android.myApp3.api.Callback;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {

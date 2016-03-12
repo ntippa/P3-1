@@ -1,4 +1,4 @@
-package it.jaschke.test.api;
+package com.ntippa.android.myApp3.api;
 
 
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import it.jaschke.test.R;
-import it.jaschke.test.data.AlexandriaContract;
-import it.jaschke.test.services.DownloadImage;
+
+import com.ntippa.android.myApp3.data.AlexandriaContract;
+import com.ntippa.android.services.DownloadImage;
 
 /**
  * Created by saj on 11/01/15.

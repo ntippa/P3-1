@@ -1,4 +1,4 @@
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,9 +18,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import it.jaschke.test.data.AlexandriaContract;
-import it.jaschke.test.services.BookService;
-import it.jaschke.test.services.DownloadImage;
+import com.ntippa.android.myApp3.data.AlexandriaContract;
+import com.ntippa.android.myApp3.services.BookService;
+import com.ntippa.android.myApp3.services.DownloadImage;
 
 
 public class BookDetail extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

@@ -1,4 +1,4 @@
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.app.Activity;
 import android.os.Bundle;

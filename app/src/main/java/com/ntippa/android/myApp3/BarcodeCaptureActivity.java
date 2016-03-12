@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -49,9 +49,11 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-import it.jaschke.test.camera.CameraSource;
-import it.jaschke.test.camera.CameraSourcePreview;
-import it.jaschke.test.camera.GraphicOverlay;
+import com.ntippa.android.BarcodeTrackerFactory;
+import com.ntippa.android.myApp3.BarcodeGraphic;
+import com.ntippa.android.myApp3.camera.CameraSource;
+import com.ntippa.android.myApp3.camera.CameraSourcePreview;
+import com.ntippa.android.myApp3.camera.GraphicOverlay;
 
 /**
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the

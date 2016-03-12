@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,7 +23,7 @@ import android.graphics.RectF;
 
 import com.google.android.gms.vision.barcode.Barcode;
 
-import it.jaschke.test.camera.GraphicOverlay;
+import com.ntippa.android.myApp3.camera.GraphicOverlay;
 
 /**
  * Graphic instance for rendering barcode position, size, and ID within an associated graphic

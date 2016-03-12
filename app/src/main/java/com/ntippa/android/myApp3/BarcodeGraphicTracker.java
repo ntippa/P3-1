@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.barcode.Barcode;
 
-import it.jaschke.test.camera.GraphicOverlay;
+import com.ntippa.android.myApp3.BarcodeGraphic;
+import com.ntippa.android.myApp3.camera.GraphicOverlay;
 
 /**
  * Generic tracker which is used for tracking or reading a barcode (and can really be used for

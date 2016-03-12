@@ -1,4 +1,4 @@
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

@@ -1,4 +1,4 @@
-package it.jaschke.test;
+package com.ntippa.android.myApp3;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -14,9 +14,9 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import it.jaschke.test.api.BookListAdapter;
-import it.jaschke.test.api.Callback;
-import it.jaschke.test.data.AlexandriaContract;
+import com.ntippa.android.myApp3.api.BookListAdapter;
+import com.ntippa.android.myApp3.api.Callback;
+import com.ntippa.android.myApp3.data.AlexandriaContract;
 
 
 public class ListOfBooks extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {

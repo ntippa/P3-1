@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package it.jaschke.test.camera;
+package com.ntippa.android.myApp3.camera;
 
 import android.Manifest;
 import android.content.Context;

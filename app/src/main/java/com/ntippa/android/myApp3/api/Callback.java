@@ -1,4 +1,4 @@
-package it.jaschke.test.api;
+package com.ntippa.android.myApp3.api;
 
 /**
  * Created by saj on 25/01/15.
