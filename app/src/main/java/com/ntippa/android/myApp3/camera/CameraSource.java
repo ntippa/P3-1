@@ -374,6 +374,14 @@ public class CameraSource {
             }
 
             mCamera = createCamera();
+            //todo:Nalini
+            if(mCamera != null){
+                Log.d("NALINI","Camera not null");
+            }
+            else
+            {
+                Log.d("NALINI","Camera null");
+            }
             mCamera.setPreviewDisplay(surfaceHolder);
             mCamera.startPreview();
 

@@ -49,13 +49,12 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-import com.ntippa.android.BarcodeTrackerFactory;
-import com.ntippa.android.myApp3.BarcodeGraphic;
 import com.ntippa.android.myApp3.camera.CameraSource;
 import com.ntippa.android.myApp3.camera.CameraSourcePreview;
 import com.ntippa.android.myApp3.camera.GraphicOverlay;
 
 /**
+ * Courtesy: Mobile Vision API@Google.
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.

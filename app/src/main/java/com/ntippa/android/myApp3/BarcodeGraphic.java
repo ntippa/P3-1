@@ -25,7 +25,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 import com.ntippa.android.myApp3.camera.GraphicOverlay;
 
-/**
+/**Courtesy: Mobile Vision API@Google.
  * Graphic instance for rendering barcode position, size, and ID within an associated graphic
  * overlay view.
  */

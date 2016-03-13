@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.ntippa.android.myApp3.R;
 import com.ntippa.android.myApp3.data.AlexandriaContract;
-import com.ntippa.android.services.DownloadImage;
+import com.ntippa.android.myApp3.services.DownloadImage;
 
 /**
  * Created by saj on 11/01/15.
@@ -27,6 +28,7 @@ public class BookListAdapter extends CursorAdapter {
 
         public ViewHolder(View view) {
             bookCover = (ImageView) view.findViewById(R.id.fullBookCover);
+           // bookCover = view.findViewById(R.id.fullBookCover);
             bookTitle = (TextView) view.findViewById(R.id.listBookTitle);
             bookSubTitle = (TextView) view.findViewById(R.id.listBookSubTitle);
         }

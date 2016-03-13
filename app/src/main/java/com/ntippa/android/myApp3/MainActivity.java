@@ -1,30 +1,44 @@
 package com.ntippa.android.myApp3;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.ntippa.android.myApp3.api.Callback;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, Callback,
+        GoogleApiClient.OnConnectionFailedListener {
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1978;
+    static String TAG = MainActivity.class.getSimpleName();
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
+    private GoogleApiClient mGoogleApiClient;
     private NavigationDrawerFragment navigationDrawerFragment;
 
     /**
@@ -34,18 +48,46 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     public static boolean IS_TABLET = false;
     private BroadcastReceiver messageReciever;
 
+    private DialogFragment scanDialogFragment;
+    private Fragment startScreenFragment;
+
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+//        // Create a GoogleApiClient instance//todo:
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .enableAutoManage(this /* FragmentActivity */,
+//                        this /* OnConnectionFailedListener */)
+//                .addApi()
+//                .build();
+
+
         IS_TABLET = isTablet();
         if(IS_TABLET){
             setContentView(R.layout.activity_main_tablet);
         }else {
             setContentView(R.layout.activity_main);
         }
+
+        //todo:Fix this start screen option obtained from Settings Activity
+//        //setp start screen
+//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        String startScreenPref = sharedPrefs.getString(this.getString(R.string.pref_startScreen), "");
+//        if(startScreenPref == getString(R.string.books))
+//            startScreenFragment = new ListOfBooks();//todo::startScreen
+//        else
+//            startScreenFragment = new AddBook();
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.container, startScreenFragment)//todo:addToBackStack??
+//                .addToBackStack((String) title)
+//                .commit();
+
 
         messageReciever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
@@ -58,6 +100,9 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         // Set up the drawer.
         navigationDrawerFragment.setUp(R.id.navigation_drawer,
                     (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
+
     }
 
     @Override
@@ -85,6 +130,28 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 .addToBackStack((String) title)
                 .commit();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkPlayServices();//todo:
+    }
+
+
+    private boolean checkPlayServices() {//coutesy:stackOverflow
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        if (result != ConnectionResult.SUCCESS) {
+            if (googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this, result,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            return false;
+        }
+
+        return true;
+    }
+
 
     public void setTitle(int titleId) {
         title = getString(titleId);
@@ -146,8 +213,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         }
         getSupportFragmentManager().beginTransaction()
                 .replace(id, fragment)
-                .addToBackStack("Book Detail")
+                .addToBackStack(getString(R.string.book_detail))
                 .commit();
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        Log.d(TAG,"Connection Failed");
+        showScanDialog(connectionResult.getErrorMessage());//todo:
 
     }
 
@@ -182,4 +257,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public void showScanDialog(String status) {
+        Log.d(TAG, "showing  status");//todo:
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = ScanDialogFragment.newInstance(status);
+        // dialog.setA
+        dialog.show(this.getSupportFragmentManager(), getString(R.string.scan_dialog_default));//todo:
+    }
+
+
+
+
 }

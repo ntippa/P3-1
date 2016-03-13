@@ -8,6 +8,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,25 +23,63 @@ import com.ntippa.android.myApp3.data.AlexandriaContract;
 import com.ntippa.android.myApp3.services.BookService;
 import com.ntippa.android.myApp3.services.DownloadImage;
 
+/*
+*modified: Nalini @udacity project
+* Fragment to display Book details that were fetched vie Google Book API
+*/
 
 public class BookDetail extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String EAN_KEY = "EAN";
+    private static final String TAG = BookDetail.class.getSimpleName() ;
     private final int LOADER_ID = 10;
     private View rootView;
     private String ean;
-    private String bookTitle;
+    private String bookTitle,subTitle,description,authors,categories;
     private ShareActionProvider shareActionProvider;
+    TextView titleView,subtitleView,authorsView,categoriesView,descView;
+    private final String BOOK_TITLE = "title";
+    private final String BOOK_SUBTITLE = "subtitle";
+    private final String AUTHORS = "authors";
+    private final String CATEGORIES = "categories";
+    private final String DESCRIPTION = "description";
 
     public BookDetail(){
     }
+
+    /**
+     * Create a new instance of DetailsFragment, initialized to
+     * show the text at 'index'.
+     */
+//    public static BookDetail newInstance(int index) {
+//        BookDetail f = new BookDetail();
+//
+//        // Supply index input as an argument.
+//        Bundle args = new Bundle();
+//        args.putInt("index", index);
+//        f.setArguments(args);
+//
+//        return f;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+       // setRetainInstance(true);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "onSavedInstanceState");
+        super.onSaveInstanceState(outState);
+
+        outState.putString(BOOK_TITLE, bookTitle);//todo: saving data
+        outState.putString(BOOK_SUBTITLE,subTitle);
+        outState.putString(AUTHORS,authors);
+        outState.putString(CATEGORIES,categories);
+        outState.putString(DESCRIPTION,description);
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +91,12 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         }
 
         rootView = inflater.inflate(R.layout.fragment_full_book, container, false);
+
+        titleView = (TextView) rootView.findViewById(R.id.fullBookTitle);
+        subtitleView = (TextView) rootView.findViewById(R.id.fullBookSubTitle);
+        descView = (TextView) rootView.findViewById(R.id.fullBookDesc);
+        authorsView = (TextView) rootView.findViewById(R.id.authors);
+        categoriesView = (TextView) rootView.findViewById(R.id.categories);
         rootView.findViewById(R.id.delete_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +107,20 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
+
+        if(savedInstanceState != null){
+
+            titleView.setText(savedInstanceState.getString(BOOK_TITLE));
+            subtitleView.setText(savedInstanceState.getString(BOOK_SUBTITLE));
+
+            String authors = savedInstanceState.getString(AUTHORS);
+            String[] authorsArr = authors.split(",");
+            authorsView.setLines(authorsArr.length);
+            authorsView.setText(authors.replace(",", "\n"));
+
+            descView.setText(savedInstanceState.getString(DESCRIPTION));
+            categoriesView.setText(savedInstanceState.getString(CATEGORIES));
+        }
         return rootView;
     }
 
@@ -72,6 +131,13 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+
+//        //Attach an intent to this share action provider.
+//        if(shareActionProvider != null){
+//            shareActionProvider.setShareIntent(createShareBookInfo());
+//        }else{
+//            Log.d(TAG,"share action provider is null");
+//        }
     }
 
     @Override
@@ -93,35 +159,43 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         }
 
         bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
-        ((TextView) rootView.findViewById(R.id.fullBookTitle)).setText(bookTitle);
+        titleView.setText(bookTitle);
 
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text)+bookTitle);
-        shareActionProvider.setShareIntent(shareIntent);
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+//        shareIntent.setType("text/plain");
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text) + bookTitle);
+//        shareActionProvider.setShareIntent(shareIntent);
+        //Attach an intent to this share action provider.
+        if(shareActionProvider != null){
+            Log.d(TAG,"shareActionProvider not null");//todo:
+            shareActionProvider.setShareIntent(createShareBookInfo());
+        }else{
+            Log.d(TAG,"share action provider is null");
+        }
 
-        String bookSubTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
-        ((TextView) rootView.findViewById(R.id.fullBookSubTitle)).setText(bookSubTitle);
 
-        String desc = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.DESC));
-        ((TextView) rootView.findViewById(R.id.fullBookDesc)).setText(desc);
+        subTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
+        subtitleView.setText(subTitle);
 
-        String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
+        description = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.DESC));
+        descView.setText(description);
+
+        authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
         String[] authorsArr = authors.split(",");
-        ((TextView) rootView.findViewById(R.id.authors)).setLines(authorsArr.length);
-        ((TextView) rootView.findViewById(R.id.authors)).setText(authors.replace(",","\n"));
+        authorsView.setLines(authorsArr.length);
+        authorsView.setText(authors.replace(",", "\n"));
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         if(Patterns.WEB_URL.matcher(imgUrl).matches()){
             new DownloadImage((ImageView) rootView.findViewById(R.id.fullBookCover)).execute(imgUrl);
             rootView.findViewById(R.id.fullBookCover).setVisibility(View.VISIBLE);
         }
 
-        String categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
-        ((TextView) rootView.findViewById(R.id.categories)).setText(categories);
+        categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
+        categoriesView.setText(categories);
 
         if(rootView.findViewById(R.id.right_container)!=null){
-            rootView.findViewById(R.id.backButton).setVisibility(View.INVISIBLE);
+           // rootView.findViewById(R.id.backButton).setVisibility(View.INVISIBLE);//todo: remove back button.
         }
 
     }
@@ -131,11 +205,25 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
     }
 
-    @Override
-    public void onPause() {
-        super.onDestroyView();
-        if(MainActivity.IS_TABLET && rootView.findViewById(R.id.right_container)==null){
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
+//    @Override
+//    public void onPause() {
+//        Log.d(TAG, "onPause");//todo: commenting this code
+//        super.onDestroyView();
+////        if(MainActivity.IS_TABLET && rootView.findViewById(R.id.right_container)==null){
+////            getActivity().getSupportFragmentManager().popBackStack();
+////        }
+//
+//    }
+
+
+    private Intent createShareBookInfo(){
+        Log.d(TAG,"createShareBookInfo");
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        //shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text) + bookTitle);
+        //shareActionProvider.setShareIntent(shareIntent);
+        return shareIntent;
     }
 }

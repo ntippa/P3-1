@@ -23,7 +23,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.ntippa.android.myApp3.BarcodeGraphic;
 import com.ntippa.android.myApp3.camera.GraphicOverlay;
 
-/**
+/**Courtesy: Mobile Vision API@Google.
  * Generic tracker which is used for tracking or reading a barcode (and can really be used for
  * any type of item).  This is used to receive newly detected items, add a graphical representation
  * to an overlay, update the graphics as the item changes, and remove the graphics when the item
