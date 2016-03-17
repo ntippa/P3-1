@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auto_focus">Auto Focus</string>
+    <string name="use_flash">Use Flash</string>
+    <string name="barcode_header">Click SCAN to read barcode</string>
+    <string name="barcode_success">Sucessfully scanned barcode</string>
+    <string name="barcode_failure">Unable to read barcode</string>
+    <string name="barcode_error">Error reading barcode</string>
+    <string name="permission_camera_rationale">access to camera needed</string>
+    <string name="ok">OK</string>
+    <string name="no_camera_permission">Camera permission not available</string>
+    <string name="dialog_scan_status">Scan Status</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_books">The book list is empty.Add a book you like!!</string>
+    <string name="no_network">No Network available to fetch book data</string>
+    <string name="book_detail">Book Detail</string>
+    <string name="scan_dialog_default">Scan</string>
+    <string name="invalid_barcode">Invalid Barcode</string>
+    <string name="status">Processing</string>
+    <string name="book_saved_status">Book Saved</string>
+    <string name="book_deleted">Book Deleted</string>
+    <string name="intial_status">Enter ISBN in textBox or click SCAN button to start scanning for barcode</string>
+    <string name="barcode">Scanned Barcode is:</string>
+    <string name="intent_data_null">No barcode captured, intent data is null</string>
+</resources>

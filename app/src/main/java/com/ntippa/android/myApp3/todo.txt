@@ -1,0 +1,27 @@
+
+The zip file has to folders-
+p3-1- Alexandria app
+P3-2-Football scores app.
+
+For P3-1 Alexandria app-
+## I handled few error cases. to highlight them, i have added comments like this : //todo:
+cases are
+-Check Network availability
+-Check if the scanned barcode is ISBN barcode.
+-No Book data
+
+
+## I am assuming that Google play services are installed on devices that are testing this app functionality.
+I do have GoogleClientAPi code in place but doesnt seem to work as expected. Yet to fix that.
+
+##I am using Mobile Vision API for scanning barcodes. This scanning functionality expects that the barcode to be scanned in proper light setting.
+I dont have falshlight or autoFocus functionality. Hence this dependency.
+
+
+For Football scores app-P3-2,
+I have implemented a collection widget.( List view of Football matches).
+
+
+
+
+
