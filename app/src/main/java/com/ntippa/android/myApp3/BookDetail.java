@@ -114,9 +114,14 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
             subtitleView.setText(savedInstanceState.getString(BOOK_SUBTITLE));
 
             String authors = savedInstanceState.getString(AUTHORS);
-            String[] authorsArr = authors.split(",");
-            authorsView.setLines(authorsArr.length);
-            authorsView.setText(authors.replace(",", "\n"));
+            if(authors == null){
+                authorsView.setText("No Author info");
+            }else{
+                String[] authorsArr = authors.split(",");
+                authorsView.setLines(authorsArr.length);
+                authorsView.setText(authors.replace(",", "\n"));
+            }
+
 
             descView.setText(savedInstanceState.getString(DESCRIPTION));
             categoriesView.setText(savedInstanceState.getString(CATEGORIES));
@@ -127,6 +132,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d(TAG,"onCreateOptionsMenu");
         inflater.inflate(R.menu.book_detail, menu);
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
@@ -154,6 +160,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
+        Log.d(TAG,"onLoadFinished");
         if (!data.moveToFirst()) {
             return;
         }
@@ -176,27 +183,46 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
 
         subTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
-        subtitleView.setText(subTitle);
+        //Log.d(TAG, "subtitle" + subTitle);
+        subtitleView.setText((subTitle == null)?"No subtitle info":subTitle);
 
         description = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.DESC));
-        descView.setText(description);
+       // Log.d(TAG, "description" + description);
+        descView.setText((description == null) ? "no description" : description);
 
         authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
-        String[] authorsArr = authors.split(",");
-        authorsView.setLines(authorsArr.length);
-        authorsView.setText(authors.replace(",", "\n"));
+
+        if(authors == null) {
+            Log.d(TAG,"No Authors");
+           // authors = "";//empty string
+            authorsView.setText("No Author info");
+        }else{
+           // Log.d(TAG,"Authors" + authors);
+            String[] authorsArr = authors.split(",");
+           // Log.d(TAG,"authorsArr length" + authorsArr.length);
+            authorsView.setLines(authorsArr.length);
+            authorsView.setText(authors.replace(",", "\n"));
+        }
+
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
-        if(Patterns.WEB_URL.matcher(imgUrl).matches()){
-            new DownloadImage((ImageView) rootView.findViewById(R.id.fullBookCover)).execute(imgUrl);
-            rootView.findViewById(R.id.fullBookCover).setVisibility(View.VISIBLE);
+        if(imgUrl != null) {
+            Log.d(TAG,"image URL" + imgUrl);
+            if (Patterns.WEB_URL.matcher(imgUrl).matches()) {
+                new DownloadImage((ImageView) rootView.findViewById(R.id.fullBookCover)).execute(imgUrl);
+                rootView.findViewById(R.id.fullBookCover).setVisibility(View.VISIBLE);
+            }
+        }else{
+            Log.d(TAG,"Image Url is null");
+            rootView.findViewById(R.id.fullBookCover).setVisibility(View.INVISIBLE);
         }
 
         categories = data.getString(data.getColumnIndex(AlexandriaContract.CategoryEntry.CATEGORY));
-        categoriesView.setText(categories);
+        Log.d(TAG,"categories" + categories);
+        categoriesView.setText((categories == null) ? "":categories);
 
-        if(rootView.findViewById(R.id.right_container)!=null){
-           // rootView.findViewById(R.id.backButton).setVisibility(View.INVISIBLE);//todo: remove back button.
-        }
+//        if(rootView.findViewById(R.id.right_container)!=null){
+//           // rootView.findViewById(R.id.backButton).setVisibility(View.INVISIBLE);//todo: remove back button.
+//        }
 
     }
 
